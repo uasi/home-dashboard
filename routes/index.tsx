@@ -1,9 +1,11 @@
-import { Button } from "../components/Button.tsx";
+import { getSystemStat, SystemStats } from "../components/SystemStats.tsx";
 
-export default function Home() {
+export default async function Home() {
+  const systemStat = await getSystemStat();
+
   return (
     <div class="p-8">
-      <Button>Click</Button>
+      <SystemStats systemStat={systemStat} />
     </div>
   );
 }
