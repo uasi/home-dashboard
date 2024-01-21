@@ -7,7 +7,7 @@ import {
   setSessionIdCookie,
 } from "../lib/session.ts";
 
-const AUTHORIZED_PATHS = ["/"];
+const AUTHORIZED_PATHS = ["/", "/api/command"];
 
 interface State {
   session: Record<string, unknown>;
@@ -26,14 +26,14 @@ export async function handler(
   const sessionId = getSessionId(req.headers);
 
   if (!sessionId) {
-    return redirectToLogin("/");
+    return req.method === "GET" ? redirectToLogin("/") : badRequest();
   }
 
   const kv = await Deno.openKv();
   const session = await getSession(kv, sessionId);
 
   if (!session) {
-    return redirectToLogin("/");
+    return req.method === "GET" ? redirectToLogin("/") : badRequest();
   }
 
   await setSession(kv, sessionId, session);
@@ -44,4 +44,10 @@ export async function handler(
   setSessionIdCookie(resp.headers, sessionId);
 
   return resp;
+}
+
+function badRequest() {
+  return new Response(JSON.stringify({ error: "unauthorized" }), {
+    status: 401,
+  });
 }

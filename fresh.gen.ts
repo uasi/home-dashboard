@@ -5,10 +5,12 @@
 import * as $_404 from "./routes/_404.tsx";
 import * as $_app from "./routes/_app.tsx";
 import * as $_middleware from "./routes/_middleware.tsx";
+import * as $api_command from "./routes/api/command.ts";
 import * as $index from "./routes/index.tsx";
 import * as $login from "./routes/login.tsx";
 import * as $logout from "./routes/logout.tsx";
-
+import * as $CommandButton from "./islands/CommandButton.tsx";
+import * as $CommandPanel from "./islands/CommandPanel.tsx";
 import { type Manifest } from "$fresh/server.ts";
 
 const manifest = {
@@ -16,11 +18,15 @@ const manifest = {
     "./routes/_404.tsx": $_404,
     "./routes/_app.tsx": $_app,
     "./routes/_middleware.tsx": $_middleware,
+    "./routes/api/command.ts": $api_command,
     "./routes/index.tsx": $index,
     "./routes/login.tsx": $login,
     "./routes/logout.tsx": $logout,
   },
-  islands: {},
+  islands: {
+    "./islands/CommandButton.tsx": $CommandButton,
+    "./islands/CommandPanel.tsx": $CommandPanel,
+  },
   baseUrl: import.meta.url,
 } satisfies Manifest;
 
